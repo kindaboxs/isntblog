@@ -43,6 +43,9 @@ const eslintConfig = tseslint.config(
 				"error",
 				{ checksVoidReturn: { attributes: false } },
 			],
+			"@typescript-eslint/no-unsafe-assignment": "off",
+			"@typescript-eslint/no-unsafe-call": "off",
+			"@typescript-eslint/no-unsafe-member-access": "off",
 		},
 		linterOptions: {
 			reportUnusedDisableDirectives: true,

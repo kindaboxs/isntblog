@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { TRPCReactProvider } from "@/trpc/client";
 
 import "@/styles/globals.css";
 
@@ -33,14 +34,16 @@ export default function RootLayout({
 			suppressHydrationWarning
 		>
 			<body className="font-sans antialiased">
-				<ThemeProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-					disableTransitionOnChange
-				>
-					{children}
-				</ThemeProvider>
+				<TRPCReactProvider>
+					<ThemeProvider
+						attribute="class"
+						defaultTheme="system"
+						enableSystem
+						disableTransitionOnChange
+					>
+						{children}
+					</ThemeProvider>
+				</TRPCReactProvider>
 			</body>
 		</html>
 	);
