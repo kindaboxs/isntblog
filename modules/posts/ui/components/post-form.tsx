@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { MarkdownEditor } from "@/components/global/markdown-editor";
 import { Button } from "@/components/ui/button";
 import {
 	Form,
@@ -15,7 +16,6 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
 	postInsertSchema,
 	type PostInsertSchema,
@@ -82,7 +82,7 @@ export const PostForm = () => {
 							<FormItem>
 								<FormLabel>Content</FormLabel>
 								<FormControl>
-									<Textarea
+									<MarkdownEditor
 										placeholder="Content"
 										disabled={isPending}
 										{...field}
