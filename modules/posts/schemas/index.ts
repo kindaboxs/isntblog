@@ -5,6 +5,7 @@ export const postInsertSchema = z.object({
 		.string()
 		.min(1, { message: "Title is required" })
 		.max(100, { message: "Title is too long" }),
+	description: z.string().max(200, { message: "Description is too long" }),
 	content: z
 		.string()
 		.min(1, { message: "Content is required" })

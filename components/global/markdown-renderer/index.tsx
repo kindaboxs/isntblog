@@ -11,9 +11,8 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 
 import { markdownCustomPlugin } from "@/components/global/markdown-renderer/mardown-custom-plugin";
+import { MarkdownHeaderCodeBlock } from "@/components/global/markdown-renderer/markdown-header-code-block";
 import { cn } from "@/lib/utils";
-
-import { MarkdownHeaderCodeBlock } from "./markdown-header-code-block";
 
 interface Props {
 	content: string;

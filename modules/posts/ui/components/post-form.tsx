@@ -16,6 +16,7 @@ import {
 	FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import {
 	postInsertSchema,
 	type PostInsertSchema,
@@ -29,6 +30,7 @@ export const PostForm = () => {
 		resolver: zodResolver(postInsertSchema),
 		defaultValues: {
 			title: "",
+			description: "",
 			content: "",
 		},
 		mode: "all",
@@ -67,6 +69,25 @@ export const PostForm = () => {
 										placeholder="title"
 										type="text"
 										disabled={isPending}
+										{...field}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="description"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Description</FormLabel>
+								<FormControl>
+									<Textarea
+										placeholder="description"
+										disabled={isPending}
+										rows={3}
 										{...field}
 									/>
 								</FormControl>
