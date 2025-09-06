@@ -1,9 +1,8 @@
 import { forwardRef, useRef, useState } from "react";
 
+import { MenuBarEditor } from "@/components/global/markdown-editor/menu-bar-editor";
 import { MarkdownRenderer } from "@/components/global/markdown-renderer";
 import { Textarea } from "@/components/ui/textarea";
-
-import { MenuBarEditor } from "./menu-bar-editor";
 
 type ViewMode = "editor" | "preview" | "split";
 
@@ -149,12 +148,12 @@ export const MarkdownEditor = forwardRef<
 						onChange={(e) => onChange?.(e.target.value)}
 						placeholder={placeholder}
 						disabled={disabled}
-						className="min-h-32 resize-none rounded-none border-0"
+						className="min-h-[400px] resize-none rounded-none border-0 sm:min-h-[500px]"
 					/>
 				);
 			case "preview":
 				return (
-					<div className="min-h-32 p-4">
+					<div className="grid max-h-[500px] min-h-[400px] grid-cols-1 overflow-y-auto p-4 sm:min-h-[500px]">
 						<MarkdownRenderer content={value ?? ""} />
 					</div>
 				);
@@ -171,9 +170,9 @@ export const MarkdownEditor = forwardRef<
 							onChange={(e) => onChange?.(e.target.value)}
 							placeholder={placeholder}
 							disabled={disabled}
-							className="min-h-32 resize-none rounded-none border-0 border-r"
+							className="min-h-[400px] resize-none rounded-none border-0 border-r sm:min-h-[500px]"
 						/>
-						<div className="min-h-32 overflow-y-auto p-4">
+						<div className="max-h-[500px] min-h-[400px] overflow-y-auto p-4 sm:min-h-[500px]">
 							<MarkdownRenderer content={value ?? ""} />
 						</div>
 					</div>
