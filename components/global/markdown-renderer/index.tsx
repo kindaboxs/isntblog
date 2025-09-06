@@ -34,6 +34,16 @@ const extractTextContent = (node: ReactNode): string => {
 	return "";
 };
 
+const makeStableId = (s: string) =>
+	"code-" +
+	Math.abs(
+		Array.from(s).reduce((h, c) => ((h << 5) - h + c.charCodeAt(0)) | 0, 0)
+	).toString(36);
+
+const isInternalHref = (href: string) =>
+	href.startsWith("/") || href.startsWith("#");
+const isSafeHref = (href: string) => /^(https?:|mailto:|tel:|\/|#)/i.test(href);
+
 export const MarkdownRenderer = ({ content, className }: Props) => {
 	return (
 		<div className={cn("max-w-none", className)}>
@@ -58,7 +68,9 @@ export const MarkdownRenderer = ({ content, className }: Props) => {
 						const match = /language-(\w+)/.exec(className ?? "");
 						const language = match ? match[1] : "";
 						const codeContent = extractTextContent(children).replace(/\n$/, "");
-						const codeId = `code-${Math.random().toString(36).slice(2)}`;
+						const codeId = makeStableId(
+							`${language}|${title ?? ""}|${codeContent}`
+						);
 
 						if (!language) {
 							return (
@@ -174,15 +186,45 @@ export const MarkdownRenderer = ({ content, className }: Props) => {
 						children,
 						href,
 						...props
-					}: HTMLAttributes<HTMLElement> & ExtraProps & { href?: string }) => (
-						<Link
-							href={href!}
-							className="text-primary hover:text-primary/80 underline"
-							{...props}
-						>
-							{children}
-						</Link>
-					),
+					}: HTMLAttributes<HTMLElement> & ExtraProps & { href?: string }) => {
+						const url = href ?? "";
+
+						if (isSafeHref(url)) {
+							return (
+								<span
+									className="text-primary hover:text-primary/80 underline"
+									title={url}
+									{...props}
+								>
+									{children}
+								</span>
+							);
+						}
+
+						if (isInternalHref(url)) {
+							return (
+								<Link
+									href={url}
+									className="text-primary hover:text-primary/80 underline"
+									{...props}
+								>
+									{children}
+								</Link>
+							);
+						}
+
+						return (
+							<Link
+								href={url}
+								className="text-primary hover:text-primary/80 underline"
+								target="_blank"
+								rel="noopener noreferrer nofollow"
+								{...props}
+							>
+								{children}
+							</Link>
+						);
+					},
 
 					strong: ({ children, ...props }) => (
 						<strong className="text-foreground font-semibold" {...props}>
