@@ -9,7 +9,7 @@ export const postInsertSchema = z.object({
 	content: z
 		.string()
 		.min(1, { message: "Content is required" })
-		.max(3500, { message: "Content is too long" }),
+		.max(10000, { message: "Content is too long" }),
 });
 
 export type PostInsertSchema = z.infer<typeof postInsertSchema>;

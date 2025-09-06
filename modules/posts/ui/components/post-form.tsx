@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
+import { SparklesIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -48,10 +49,20 @@ export const PostForm = () => {
 		})
 	);
 
-	const isPending = createPost.isPending;
+	const generateDescription = useMutation(
+		trpc.post.generateDescription.mutationOptions({})
+	);
+
+	const isPending = createPost.isPending || generateDescription.isPending;
 
 	const onSubmitForm = (values: PostInsertSchema) => {
 		createPost.mutate({ ...values });
+	};
+
+	const onGenerateDescription = () => {
+		generateDescription.mutate({
+			content: form.watch("content"),
+		});
 	};
 
 	return (
@@ -83,14 +94,29 @@ export const PostForm = () => {
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Description</FormLabel>
-								<FormControl>
-									<Textarea
-										placeholder="description"
-										disabled={isPending}
-										rows={3}
-										{...field}
-									/>
-								</FormControl>
+								<div className="relative">
+									<FormControl>
+										<Textarea
+											placeholder="description"
+											disabled={isPending}
+											rows={4}
+											{...field}
+										/>
+									</FormControl>
+									<Button
+										type="button"
+										variant="outline"
+										size="icon"
+										className="absolute bottom-2 left-2 size-6"
+										onClick={onGenerateDescription}
+										disabled={
+											form.watch("content") === "" ||
+											generateDescription.isPending
+										}
+									>
+										<SparklesIcon className="size-3.5" />
+									</Button>
+								</div>
 								<FormMessage />
 							</FormItem>
 						)}
